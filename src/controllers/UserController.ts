@@ -1,6 +1,7 @@
 const { request , response } = require('express');
 import { DataSource, Like } from "typeorm";
 import { AppDataSource } from "../database/config";
+const { generateJWT } = require("../helpers/generateJWT");
 import { UserModel } from "../models/UserModel";
 const bcrypt = require('bcrypt');
 
@@ -37,17 +38,33 @@ export const createNewUser =  async(  req  , res = response  ) => {
 
         await userDataSource.save(newUser);
 
+        // Directamente mando el firstname y lastname directamente ya que lo tengo de lo enviado en el body,
+        // y no sufre ningun alteramiento por lo tanto no es necesario acceder al newUser
+        const token : string = await generateJWT( newUser.id , firstname , lastname );
+
         return res.status(200).json({
             ok: true,
-            msg: 'Petición andando.',
-            newUser
+            msg: 'El usuario se ha creado con éxito.',
+            newUser,
+            token
         });
+    }
+    catch( error ){
+        return res.status(400).json({
+            ok: false,
+            msg: 'No fue posible crear el usuario.',
+        });
+    }
+};
+
+export const loginUser = async( req , res = response ) => {
+    try{
+
     }
     catch( error ){
         console.log(error);
     }
-};
-
+}
 
 export const reloadToken = async( req , res = response ) => {
     try{
@@ -58,11 +75,3 @@ export const reloadToken = async( req , res = response ) => {
     }
 }
 
-export const loginUser = async( req , res = response ) => {
-    try{
-
-    }
-    catch( error ){
-        console.log(error);
-    }
-}

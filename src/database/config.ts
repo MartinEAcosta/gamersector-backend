@@ -1,5 +1,4 @@
 import { DataSource } from "typeorm";
-import { UserModel } from "../models/UserModel";
 
 const { DB_HOST , DB_PORT , DB_USER , DB_PASSWORD , DB_NAME } = process.env;
 

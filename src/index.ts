@@ -18,12 +18,9 @@ const app = express();
 // Directorio publico
 app.use( express.static( 'public' ) );
 
-app.get("/users", function (req: Request, res: Response) {
-    return res.status(200).json({
-        ok:true,
-        msg: "Prueba de envio",
-    })
-})
+app.use( express.json() );
+
+app.use('/api/user' , require('./routes/UserRoutes') ); 
 
 app.listen( process.env.EXPRESS_PORT , () => {
     console.log(`Servidor corriendo en puerto ${ process.env.EXPRESS_PORT }  `)

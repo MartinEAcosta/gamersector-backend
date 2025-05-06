@@ -16,6 +16,9 @@ export class UserModel {
     @Column()
     email: string;
 
+    @Column() 
+    password: string;
+
     @ManyToMany( (type) => AddressModel, (address) => address.users, {
         cascade: true
     })

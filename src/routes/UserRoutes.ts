@@ -36,7 +36,7 @@ router.post(
 router.get(
     '/renew',
     [
-
+        validateJWT,
     ],
     reloadToken
 );

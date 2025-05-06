@@ -1,4 +1,10 @@
 import { Request , RequestHandler, Response } from 'express';
+
+interface CustomRequest extends Request {
+    id?: number;
+    firstname?: string;
+    lastname?: string;
+}
 const bcrypt = require('bcrypt');
 import { AppDataSource } from '../database/config';
 import { generateJWT } from '../helpers/generateJWT';
@@ -95,19 +101,34 @@ export const loginUser  = async( req : Request , res : Response ) : Promise<void
     }
 };
 
-export const reloadToken = async( req : Request , res : Response ) : Promise<void> => {
+export const reloadToken = async( req : CustomRequest , res : Response ) : Promise<void> => {
+    
+    const { id , firstname , lastname } = req;
+
     try{
+        
+        const token = await generateJWT( id , firstname , lastname );
+
+        if( !token ){
+            res.status(500).json({
+                ok : false,
+                msg: 'No fue posible renovar el token.'
+            });
+            return;
+        }
+
+
         res.status(200).json({
             ok: true,
-            msg: 'Token reloaded successfully.'
+            msg: 'El token ha sido renovado con éxito.',
+            token,
         });
         return;
     }
     catch( error ){
-        console.log(error);
         res.status(500).json({
             ok: false,
-            msg: 'Failed to reload token.'
+            msg: 'Fallo la renovación del token.'
         });
         return;
     }

@@ -5,7 +5,7 @@ import { AddressModel } from "./AddressModel";
 export class UserModel {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
     @Column()
     firstName: string;
@@ -19,7 +19,7 @@ export class UserModel {
     @Column() 
     password: string;
 
-    @ManyToMany( (type) => AddressModel, (address) => address.users, {
+    @ManyToMany((type) => AddressModel, (address) => address.users, {
         cascade: true
     })
     @JoinTable({

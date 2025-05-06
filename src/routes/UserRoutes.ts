@@ -1,17 +1,36 @@
+
 /*
-    Routes of Users
-    host + /api/users
+Routes of Users
+host + /api/users
 */
-const { Router } = require('express');
-const { createNewUser , reloadToken , loginUser } = require('../controllers/UserController');
+import { Router } from 'express';
+import { check } from "express-validator";
+import { createNewUser , reloadToken , loginUser } from '../controllers/UserController';
 const router = Router();
+
+import {validateFields} from '../middlewares/validateFields';
+import validateJWT from '../middlewares/validateJWT';
 
 router.post(
     '/new',
     [
-        // middlewares
+        check('firstname' , "El nombre es obligatorio." ).notEmpty(),
+        check('lastname' , "El apellido es obligatorio." ).notEmpty(),
+        check('email', 'El email es obligatorio.').isEmail(),
+        check('password' , 'La contraseña debe tener como minimo 6 caracteres.').isLength({ min : 6 }),
+        validateFields,
     ],
     createNewUser
+);
+
+router.post(
+    '/',
+    [        
+        check('email', 'El email es obligatorio.').isEmail(),
+        check('password' , 'La contraseña debe tener como minimo 6 caracteres.').isLength({ min : 6 }),
+        validateFields,
+    ],
+    loginUser
 );
 
 router.get(
@@ -22,11 +41,5 @@ router.get(
     reloadToken
 );
 
-router.post(
-    '/',
-    [
 
-    ],
-    loginUser
-)
-module.exports = router;
+export default router;

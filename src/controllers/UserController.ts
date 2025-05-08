@@ -19,7 +19,7 @@ export const createNewUser = async( req : Request  , res : Response ) : Promise<
     try{
 
         const ref = await userDataSource.findOneBy({ email });
-        if( ref === null ){
+        if( ref != null ){
             res.status(400).json({
                 ok: false,
                 msg: 'El mail indicado ya esta en uso.',

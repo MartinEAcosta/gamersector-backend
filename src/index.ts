@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+const cors = require('cors');
 
 import { AppDataSource } from './database/config';
 import userRoutes from './routes/UserRoutes';
@@ -17,6 +18,8 @@ AppDataSource
 
 // Crear servidor de express
 const app = express();
+
+app.use(cors());
 
 // Directorio publico
 app.use( express.static( 'public' ) );

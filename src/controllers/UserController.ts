@@ -1,10 +1,11 @@
-import { Request , RequestHandler, Response } from 'express';
+import { Request , Response } from 'express';
 
 interface CustomRequest extends Request {
     id?: number;
     firstname?: string;
     lastname?: string;
-}
+};
+
 const bcrypt = require('bcrypt');
 import { AppDataSource } from '../database/config';
 import { generateJWT } from '../helpers/generateJWT';
@@ -117,7 +118,6 @@ export const reloadToken = async( req : CustomRequest , res : Response ) : Promi
             return;
         }
 
-
         res.status(200).json({
             ok: true,
             msg: 'El token ha sido renovado con éxito.',
@@ -132,5 +132,5 @@ export const reloadToken = async( req : CustomRequest , res : Response ) : Promi
         });
         return;
     }
-}
+};
 

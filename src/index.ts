@@ -3,6 +3,7 @@ require('dotenv').config();
 
 import { AppDataSource } from './database/config';
 import userRoutes from './routes/UserRoutes';
+import productRoutes from './routes/ProductRoutes';
 
 
 AppDataSource
@@ -22,7 +23,8 @@ app.use( express.static( 'public' ) );
 
 app.use( express.json() );
 
-app.use('/api/user' , userRoutes ); 
+app.use('/api/user' , userRoutes );
+app.use('/api/product' , productRoutes );
 
 app.listen( process.env.EXPRESS_PORT , () => {
     console.log(`Servidor corriendo en puerto ${ process.env.EXPRESS_PORT }  `)

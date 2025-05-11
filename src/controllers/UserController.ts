@@ -109,7 +109,6 @@ export const reloadToken = async( req : CustomRequest , res : Response ) : Promi
     try{
         
         const token = await generateJWT( id , firstname , lastname );
-
         if( !token ){
             res.status(500).json({
                 ok : false,

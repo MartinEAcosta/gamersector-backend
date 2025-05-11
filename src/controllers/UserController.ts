@@ -28,8 +28,8 @@ export const createNewUser = async( req : Request  , res : Response ) : Promise<
         }
 
         const newUser = new UserModel( );
-        newUser.firstName = firstname;
-        newUser.lastName = lastname;
+        newUser.firstname = firstname;
+        newUser.lastname = lastname;
         newUser.email = email;
 
         const salt = bcrypt.genSaltSync();
@@ -83,7 +83,7 @@ export const loginUser  = async( req : Request , res : Response ) : Promise<void
             return;
         }
 
-        const token =  await generateJWT(ref.id , ref.firstName , ref.lastName);
+        const token =  await generateJWT(ref.id , ref.firstname , ref.lastname);
 
         res.status(200).json({
             ok: true,

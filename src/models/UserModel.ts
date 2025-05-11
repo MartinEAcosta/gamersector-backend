@@ -1,5 +1,6 @@
 import { Entity  , PrimaryGeneratedColumn , Column, ManyToMany, JoinColumn, JoinTable } from "typeorm";
 import { AddressModel } from "./AddressModel";
+import { RoleModel } from "./RoleModel";
 
 @Entity("User")
 export class UserModel {
@@ -8,10 +9,10 @@ export class UserModel {
     id!: number;
 
     @Column()
-    firstName: string;
+    firstname: string;
 
     @Column()
-    lastName: string;
+    lastname: string;
 
     @Column()
     email: string;
@@ -19,7 +20,7 @@ export class UserModel {
     @Column() 
     password: string;
 
-    @ManyToMany((type) => AddressModel, (address) => address.users, {
+    @ManyToMany((type) => AddressModel , (address) => address.users, {
         cascade: true
     })
     @JoinTable({
@@ -34,5 +35,19 @@ export class UserModel {
         }
     })
     addresses: AddressModel[];
+
+    @ManyToMany((type) => RoleModel , (role) => role.user , { nullable : true } )
+    @JoinTable({
+        name: "User_Role",
+        joinColumn: {
+            name:"id_user",
+            referencedColumnName:"id",
+        },
+        inverseJoinColumn: {
+            name: "id_role",
+            referencedColumnName: "id",
+        }
+    })
+    role: RoleModel[];
 
 }
